@@ -4,7 +4,10 @@
 
   IndexController = {
     view: function(req, res) {
-      return res.render('index.jade');
+      return res.render('index.jade', {
+        pageTitle: 'Node Chat',
+        desc: 'Welcome to the Node Chat'
+      });
     }
   };
 

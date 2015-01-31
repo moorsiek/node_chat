@@ -2,7 +2,15 @@ doctype html
 html(lang=ru)
     head
         title= PageTitle
+        link(rel="stylesheet", href="/css/common.css")
     body
-        | yo, guys!
+        .b-info-bar
+            .b-info-bar__nick
+                | Аноним
+        div #{desc}
         script(src="//code.jquery.com/jquery-1.11.1.min.js")
-        script(src="/js/node_chat.js")
+        script(src="/lib/jquery-cookie/jquery.cookie.js")
+        script(src="/js/NodeChat.js")
+        script(src="/js/User.js")
+        script.
+            var nodeChat = new NodeChat($, User);

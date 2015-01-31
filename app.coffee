@@ -1,4 +1,5 @@
-app = require('express')()
+express = require('express')
+app = express()
 http = require('http').Server(app)
 io = require('socket.io')(http)
 nconf = require('nconf')
@@ -10,8 +11,10 @@ indexCtrl = require('./controllers/index.coffee')
 app.set('view engine', 'jade')
 app.set('views', __dirname + '/views')
 
-#First consider commandline arguments and environment variables, respectively.
 #nconf.argv().env();
+
+#add middlewares
+app.use(express.static(__dirname + '/public'))
 
 app.get('/', (req, res) ->
   indexCtrl.view(req, res)
