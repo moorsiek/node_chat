@@ -1,3 +1,11 @@
+.clear() {
+  &:after {
+    content: ' ';
+    display: table;
+    clear: both;
+  }
+}
+
 .b-popup {
   position: fixed;
   top: 20px;
@@ -6,6 +14,9 @@
   margin-left: -250px;
   text-align: center;
   border: solid 1px #000;
+  background: #fff;
+  z-index: 10000;
+  padding: 50px;
   &__close {
     position: absolute;
     right: 10px;
@@ -23,4 +34,56 @@
   &__title {
     font-size: 16px;
   }
+}
+
+html, body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.b-nodeChat {
+  width: 100%;
+  .clear;
+  height: 100%;
+}
+.b-chatBox {
+  width: 80%;
+  float: left;
+  box-sizing: border-box;
+  border-right: 1px solid #bbb;
+  height: 80%;
+}
+.b-usersBox {
+  width: 20%;
+  float: left;
+  box-sizing: border-box;
+  height: 80%;
+}
+.b-message {
+  padding: 3px 1px;
+
+  &__user {
+    display: inline-block;
+    font-weight: 700;
+  }
+  &__text {
+    display: inline-block;
+  }
+}
+.b-messageBox {
+  border-top: 1px solid #bbb;
+
+  &__message {
+    border: 1px solid #111;
+    width: 100%;
+    height: 20%;
+    box-sizing: border-box;
+  }
+}
+
+.b-user {
+  padding: 5px;
+  color: #000;
+  cursor: pointer;
 }

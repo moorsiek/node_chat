@@ -24,8 +24,9 @@ class User
       nick: @nick
     $.cookie(COOKIE_NAME, JSON.stringify(cookie))
   setNick: (nick, saveCookie = true) ->
+    oldNick = @nick
     @nick = nick
     @saveCookie() if saveCookie
-    @_onChangeNick(nick) if @_onChangeNick
+    @_onChangeNick(oldNick, nick) if @_onChangeNick
 
 window.User = User

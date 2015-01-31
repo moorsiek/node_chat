@@ -42,15 +42,17 @@
     };
 
     User.prototype.setNick = function(nick, saveCookie) {
+      var oldNick;
       if (saveCookie == null) {
         saveCookie = true;
       }
+      oldNick = this.nick;
       this.nick = nick;
       if (saveCookie) {
         this.saveCookie();
       }
       if (this._onChangeNick) {
-        return this._onChangeNick(nick);
+        return this._onChangeNick(oldNick, nick);
       }
     };
 

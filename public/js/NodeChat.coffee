@@ -1,14 +1,50 @@
+deliver = (cb) ->
+  try
+    cb()
+  catch
+    setTimeout(20, ->
+      deliver(cb)
+    )
+
 class NodeChat
-  constructor: ($, User) ->
-    @window = window
-    @$ = $
-    @_initUser()
-    if !@user.loggedIn
-      @showLoginWindow()
+  constructor: ($, User, Ui, io) ->
+    @io = io()
+      .on('connect', =>
+        window.console.log('connected')
+        @window = window
+        @$ = $
+        @_initUi(Ui)
+        @_initUser()
+        if !@user.loggedIn
+          @showLoginWindow()
+        @io
+          .on('user.join', (nick) =>
+              deliver(=>
+                @_ui.addUser(nick)
+                @_ui.addMessage('[чат]', "К нам пришел &quot;#{nick}&quot;")
+              )
+          )
+          .on('user.changeNick', (data) =>
+            data = JSON.parse(data)
+            @_ui.addUser(data.oldNick)
+            @_ui.removeUser(data.newNick)
+            @_ui.addMessage('[чат]', "Участника #{data.oldNick} теперь зовут #{data.newNick}")
+          )
+          .on('user.leave', (nick) =>
+            @_ui.removeUser(nick)
+            @_ui.addMessage('[чат]', "Участника #{nick} бабайка забрала")
+          )
+      )
+  _initUi: (Ui) ->
+    @_ui = new Ui(@$)
   _initUser: ->
     opts =
-      onChangeNick: (nick) ->
-        $('.b-info-bar__nick').text(nick)
+      onChangeNick: (oldNick, newNick) =>
+        @_ui.addMessage('[чат]', "Вы вошли под ником &quot;#{newNick}&quot;")
+        if oldNick?
+          @io.emit('changeNick', newNick)
+        else
+          @io.emit('login', newNick)
     @user = new User(opts)
   _setupUi: ->
     @node = $('<div/>')

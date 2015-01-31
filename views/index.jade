@@ -4,13 +4,11 @@ html(lang=ru)
         title= PageTitle
         link(rel="stylesheet", href="/css/common.css")
     body
-        .b-info-bar
-            .b-info-bar__nick
-                | Аноним
-        div #{desc}
+        script(src="https://cdn.socket.io/socket.io-1.2.0.js")
         script(src="//code.jquery.com/jquery-1.11.1.min.js")
         script(src="/lib/jquery-cookie/jquery.cookie.js")
-        script(src="/js/NodeChat.js")
+        script(src="/js/Ui.js")
         script(src="/js/User.js")
+        script(src="/js/NodeChat.js")
         script.
-            var nodeChat = new NodeChat($, User);
+            var nodeChat = new NodeChat($, User, Ui, io);
