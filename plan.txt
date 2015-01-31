@@ -23,3 +23,9 @@
 	работает в хроме
 
 30.01.2015 12:38
+
+компоненты
+	express + jade
+	socket.io
+	coffeescript
+	
