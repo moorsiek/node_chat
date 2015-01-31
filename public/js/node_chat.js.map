@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "node_chat.js",
+  "sourceRoot": "",
+  "sources": [
+    "node_chat.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA;AAAA"
+}
