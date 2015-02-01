@@ -24,10 +24,12 @@
           if (!_this.user.loggedIn) {
             _this.showLoginWindow();
           }
-          return _this.io.on('user.join', function(nick) {
+          return _this.io.on('user.join', function(data) {
             return deliver(function() {
-              _this._ui.addUser(nick);
-              return _this._ui.addMessage('[чат]', "К нам пришел &quot;" + nick + "&quot;");
+              data = JSON.parse(data);
+              console.log(data);
+              _this._ui.addUser(data.users);
+              return _this._ui.addMessage('[чат]', "К нам пришел &quot;" + data.nick + "&quot;");
             });
           }).on('user.changeNick', function(data) {
             data = JSON.parse(data);

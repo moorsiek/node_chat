@@ -47,7 +47,10 @@ io
           users[nick] = socket
           socketToUser[socket.id] = nick
           socket.emit('login.ok')
-          io.emit('user.join', nick)
+          data =
+            nick: nick
+            users: Object.getOwnPropertyNames(users)
+          io.emit('user.join', JSON.stringify(data))
       )
       .on('changeNick', (nick) ->
         oldNick = socketToUser[socket.id]
@@ -64,6 +67,8 @@ io
         io.emit('user.changeNick', JSON.stringify(data))
       )
   )
+
+
 
 
 

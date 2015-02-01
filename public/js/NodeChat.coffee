@@ -18,10 +18,12 @@ class NodeChat
         if !@user.loggedIn
           @showLoginWindow()
         @io
-          .on('user.join', (nick) =>
+          .on('user.join', (data) =>
               deliver(=>
-                @_ui.addUser(nick)
-                @_ui.addMessage('[чат]', "К нам пришел &quot;#{nick}&quot;")
+                data = JSON.parse(data)
+                console.log(data)
+                @_ui.addUser(data.users)
+                @_ui.addMessage('[чат]', "К нам пришел &quot;#{data.nick}&quot;")
               )
           )
           .on('user.changeNick', (data) =>

@@ -47,6 +47,7 @@
         return io.emit('user.leave', nick);
       }
     }).on('login', function(nick) {
+      var data;
       if ((nick == null) || nick === '') {
         socket.emit('login.error', 'Недопустимый ник');
       }
@@ -56,7 +57,11 @@
         users[nick] = socket;
         socketToUser[socket.id] = nick;
         socket.emit('login.ok');
-        return io.emit('user.join', nick);
+        data = {
+          nick: nick,
+          users: Object.getOwnPropertyNames(users)
+        };
+        return io.emit('user.join', JSON.stringify(data));
       }
     }).on('changeNick', function(nick) {
       var data, oldNick;
