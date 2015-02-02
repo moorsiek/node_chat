@@ -6,6 +6,10 @@ nconf = require('nconf')
 config = nconf.file({file: 'config.json'})
 
 indexCtrl = require('./controllers/index.coffee')
+User = require('./models/User.coffee')
+
+
+
 
 #configure application
 app.set('view engine', 'jade')
@@ -21,30 +25,34 @@ app.get('/', (req, res) ->
 )
 
 users = {}
-sockets = {}
 socketToUser = {}
+id = 0
 
 io
   .on('connection', (socket) ->
     console.log('a user connected')
-    sockets[socket.id] = socket
+
+    user =x
+      id: ++id
+      socket: socket
+      loggedIn: false
+
+    users[user.id] = user
+    socketToUser[socket.id] = user.id
 
     socket
       .on('disconnect', ->
-        delete sockets[socket.id]
-        if socketToUser[socket.id]
-          nick = socketToUser[socket.id]
-          delete users[nick]
-          delete socketToUser[socket.id]
-          io.emit('user.leave', nick)
+        delete users[user.id]
+        delete socketToUser[socket.id]
+        io.emit('user.leave', user.nick) if user.loggedIn
       )
       .on('login', (nick) ->
         if !nick? || nick is ''
           socket.emit('login.error', 'Недопустимый ник')
-        if users[nick]
+        if user
           socket.emit('login.error', "#{nick} уже тут")
         else
-          users[nick] = socket
+          user.nick = nick
           socketToUser[socket.id] = nick
           socket.emit('login.ok')
           data =
